@@ -39,17 +39,14 @@ export function classifySessionSwitch(samples: SessionSwitchSample[]) {
 }
 
 export function isCorrectDestination(sample: SessionSwitchSample) {
-  const overZero = sample.destination.length > 0
-  const zeroLength = sample.destination.length === 0
-  const bottomErrorPx = (sample.bottomAnchorRequired === false || Math.abs(sample.bottomErrorPx ?? Infinity) <= 1)
-  
-  return ( 
-    overZero &&
-    zeroLength &&
-    sample.last &&
-    sample.requiredPartVisible !== false &&
-    bottomErrorPx
-  )
+  const hasDestination = sample.destination.length > 0
+  const hasNoSource = sample.source.length === 0
+  const isAtBottom = sample.bottomAnchorRequired === false || Math.abs(sample.bottomErrorPx ?? Infinity) <= 1
+  const validDesinationandSource = hasDestination && hasNoSource
+  const validDesinationandSourceAndVisible = sample.last && sample.requiredPartVisible !== false && isAtBottom
+
+  //return hasDestination && hasNoSource && sample.last && sample.requiredPartVisible !== false && isAtBottom
+  return validDesinationandSource && validDesinationandSourceAndVisible
 }
 
 export function isStableSessionSwitch(samples: SessionSwitchSample[]) {
