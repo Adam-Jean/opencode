@@ -39,12 +39,17 @@ export function classifySessionSwitch(samples: SessionSwitchSample[]) {
 }
 
 export function isCorrectDestination(sample: SessionSwitchSample) {
-  return (
-    sample.destination.length > 0 &&
-    sample.source.length === 0 &&
+  const overZero = sample.destination.length > 0
+  const zeroLength = sample.destination.length === 0
+  const bottomAnchorRequired = sample.bottomAnchorRequired === false
+  const bottomErrorPx = sample.bottomErrorPx ?? Infinity
+  
+  return ( 
+    overZero &&
+    zeroLength &&
     sample.last &&
     sample.requiredPartVisible !== false &&
-    (sample.bottomAnchorRequired === false || Math.abs(sample.bottomErrorPx ?? Infinity) <= 1)
+    (bottomAnchorRequired || Math.abs(bottomErrorPx) <= 1)
   )
 }
 
