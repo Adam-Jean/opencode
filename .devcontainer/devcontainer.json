@@ -7,7 +7,8 @@
   "customizations": {
     "vscode": {
       "extensions": [
-        "oven.bun-vscode"
+        "oven.bun-vscode",
+        "qlty.qlty-vscode"
       ]
     }
   }
