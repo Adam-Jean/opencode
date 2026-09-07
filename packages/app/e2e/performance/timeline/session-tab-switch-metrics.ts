@@ -41,15 +41,14 @@ export function classifySessionSwitch(samples: SessionSwitchSample[]) {
 export function isCorrectDestination(sample: SessionSwitchSample) {
   const overZero = sample.destination.length > 0
   const zeroLength = sample.destination.length === 0
-  const bottomAnchorRequired = sample.bottomAnchorRequired === false
-  const bottomErrorPx = sample.bottomErrorPx ?? Infinity
+  const bottomErrorPx = (sample.bottomAnchorRequired === false || Math.abs(sample.bottomErrorPx ?? Infinity) <= 1)
   
   return ( 
     overZero &&
     zeroLength &&
     sample.last &&
     sample.requiredPartVisible !== false &&
-    (bottomAnchorRequired || Math.abs(bottomErrorPx) <= 1)
+    bottomErrorPx
   )
 }
 
